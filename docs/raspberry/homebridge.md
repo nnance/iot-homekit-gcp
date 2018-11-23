@@ -1,8 +1,16 @@
-# HomeBridge
+HomeBridge
+===
 
 This combines the settings found in this Gist under [johannrichard/homebridge](https://gist.github.com/johannrichard/0ad0de1feb6adb9eb61a/) and this [Guide](https://timleland.com/setup-homebridge-to-start-on-bootup/) into a single set of instructions.
 
 On newer Raspberry Pi and Debian systems (Jessie +), managing of services with `init.d` is (transparently) replaced with `systemd`. If you wish to use `systemd` for running Homebridge on boot, you can follow these instructions. As you can see, the service definition is much shorter than a comparable init.d script.
+
+- [Getting Started](#getting-started)
+- [Configuring Systemd](#configuring-systemd)
+    - [Run as a service](#run-as-a-service)
+    - [Notes](#notes)
+
+## Getting Started
 
 To get started connect to the Rasberrypi with the following command:
 ```
@@ -13,7 +21,15 @@ You will need to use the password that was setup during the installation process
 
 ## Configuring Systemd
 
-Download the [two files](../../config/raspberry) and place [homebridge](../../config/raspberry/homebridge) under `/etc/default` and [homebridge.service](../../config/raspberry/homebridge.service) under `/etc/systemd/system` on your Raspberry Pi.
+Download the [two files](../../config/raspberry/homebridge) and place [homebridge](../../config/raspberry/homebridge/homebridge) under `/etc/default` and [homebridge.service](../../config/raspberry/homebridge/homebridge.service) under `/etc/systemd/system` on your Raspberry Pi.
+
+```
+cd /etc/default && wget --no-check-certificate https://raw.githubusercontent.com/nnance/iot-homekit-gcp/master/config/raspberry/homebridge/homebridge
+```
+
+```
+cd /etc/systemd/system && wget --no-check-certificate https://raw.githubusercontent.com/nnance/iot-homekit-gcp/master/config/raspberry/homebridge/homebridge.service
+```
 
 **ATTENTION**: Depending on how you installed nodejs (as package or tarball) and homebridge, you might have to change the line `ExecStart` in the file homebridge.service from `/usr/bin/homebridge` to `/usr/local/bin/homebridge`. The easiest way to find out which one to use is to issue the command which homebridge after you have installed homebridge on your system.
 ```

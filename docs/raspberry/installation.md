@@ -1,6 +1,12 @@
-# Raspberry PI Installation
+Raspberry PI Installation
+===
 
 The [Respberry PI](https://www.amazon.com/gp/product/B07BLRSKBV/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1) is a kit that comes an SD CARD with NOOBS preinstalled.  It's important to follow the instructions for assembling the container and installing the SD CARD.
+
+- [First Boot](#first-boot)
+- [Remote Access](#remote-access)
+    - [Configure WIFI with VNC](#configure-wifi-with-vnc)
+    - [Configure WIFI with command line](#configure-wifi-with-command-line)
 
 ## First Boot
 
@@ -19,3 +25,22 @@ Configuring remote access for headless operation
 * [Enable SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/README.md) for remote access via terminal
 * [Enable VNC](https://www.raspberrypi.org/documentation/remote-access/vnc/README.md) for desktop remote access
 
+### Configure WIFI with VNC
+
+Once VNC is enabled you can use a VNC client to connect to the desktop to configure the wifi network, etc.
+
+```
+brew cask install vnc-viewer
+```
+
+### Configure WIFI with command line
+
+The quickest way to enable wireless networking is to use the command line raspi-config tool.
+
+```
+sudo raspi-config
+```
+
+Select the `Network Options` item from the menu, then the `Wi-fi` option. On a fresh install, for regulatory purposes, you will need to specify the country in which the device is being used. Then set the SSID of the network, and the passphrase for the network. If you do not know the SSID of the network you want to connect to, see the next section on how to list available networks prior to running raspi-config.
+
+More details can be found [here](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
