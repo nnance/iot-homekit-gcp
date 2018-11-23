@@ -1,3 +1,5 @@
+# HomeBridge
+
 This combines the settings found in this Gist under [johannrichard/homebridge](https://gist.github.com/johannrichard/0ad0de1feb6adb9eb61a/) and this [Guide](https://timleland.com/setup-homebridge-to-start-on-bootup/) into a single set of instructions.
 
 On newer Raspberry Pi and Debian systems (Jessie +), managing of services with `init.d` is (transparently) replaced with `systemd`. If you wish to use `systemd` for running Homebridge on boot, you can follow these instructions. As you can see, the service definition is much shorter than a comparable init.d script.
@@ -8,6 +10,8 @@ ssh pi@rasberrypi.local
 ```
 
 You will need to use the password that was setup during the installation process.
+
+## Configuring Systemd
 
 Download the [two files](../../config/raspberry) and place [homebridge](../../config/raspberry/homebridge) under `/etc/default` and [homebridge.service](../../config/raspberry/homebridge.service) under `/etc/systemd/system` on your Raspberry Pi.
 
@@ -24,7 +28,7 @@ sudo apt-get install -y nodejs
 ```
 As a result my `ExecStart` was setup for `/usr/bin/homebridge` and I have updated the homebridge.service file above accordingly.
 
-### Configuration
+### Run as a service
 In order to use the systemd service as is, the following folders and user have to exists:
 * A system user named `homebridge`. You can easily create this user with `useradd --system homebridge` or choose a different name
 * A directory called `/var/lib/homebridge`, writable by the user created above, and a corresponding `config.json` file in that directory. Homebridge by default looks for its configuration in `/home/<username>/.homebridge`. This is unsuitable for services and the `-U /var/lib/homebridge` flag ensures the config is read from a different place.
