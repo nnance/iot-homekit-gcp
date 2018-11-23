@@ -1,16 +1,16 @@
-# iot-homekit-gcp
+iot-homekit-gcp
+===
 
 Home automation project based on Apple Homekit and Google Cloud.  This is the documentation and code I used to automate my home.
 
-Table Of Contents
-- [iot-homekit-gcp](#iot-homekit-gcp)
-    - [Requirements](#requirements)
-    - [Technical Design](#technical-design)
-        - [The Stack](#the-stack)
-        - [Architecture](#architecture)
-    - [Deployment](#deployment)
-        - [Raspberry PI](#raspberry-pi)
-        - [Google Cloud](#google-cloud)
+- [Requirements](#requirements)
+- [Technical Design](#technical-design)
+    - [The Stack](#the-stack)
+    - [Architecture](#architecture)
+- [Deployment](#deployment)
+    - [Raspberry PI](#raspberry-pi)
+        - [Docker on Raspberry](#docker-on-raspberry)
+    - [Google Cloud](#google-cloud)
 
 ## Requirements
 
@@ -51,12 +51,11 @@ Most of this project is deploying and configuring existing software components t
 
 As I have described previously, there is a combination of components running on the local network on a Raspberry PI as well as components running in the cloud.  Over time I want to simplify the local deployment and have more components running in the cloud where possible.
 
-Some initial thoughts on items that can be moved to the cloud include the `MQTT server` and `HomeBridge`.  Google IoT platform provides a cloud based MQTT server that could replace the local one.
+Some initial thoughts on items that can be moved to the cloud include the `MQTT server` and `HomeBridge`.  [Google IoT](https://cloud.google.com/iot-core/) platform provides a cloud based MQTT server that could replace the local one.
 
 This being said if running more things in the cloud isn't cost effective or has too much latency the following articles might be helpful in a local installation:
 
 * [Gist](https://gist.github.com/xoseperez/e23334910fb45b0424b35c422760cb87) - Raspberry Pi 3 with Mosquitto, Node-RED, InfluxDB, Grafana and Nginx (as a reverse proxy)
-* [Tick stack](https://www.influxdata.com/blog/running-the-tick-stack-on-a-raspberry-pi/) with Docker
 * Self hosted MQTT three part series, [Part 1](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-1/), [Part 2](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-2/), [Part 3](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-3/)
  
 ### Raspberry PI
@@ -68,8 +67,17 @@ The [Respberry PI](https://www.amazon.com/gp/product/B07BLRSKBV/ref=oh_aui_detai
 * [Telegraf](./docs/raspberry/telegraf.md)
 * [HomeBridge](./docs/raspberry/homebridge.md)
 
+#### Docker on Raspberry
+
 I am considering using Docker to install the above components to simplify the process and allow for greater automation.
+
+* Monitoring your home network with InfluxDB on Raspberry Pi with [Docker](https://medium.com/@petey5000/monitoring-your-home-network-with-influxdb-on-raspberry-pi-with-docker-78a23559ffea)
+* [Tick stack](https://www.influxdata.com/blog/running-the-tick-stack-on-a-raspberry-pi/) with Docker
 
 ### Google Cloud
 
-I used Google Kubernetes Engine to easly spin up and deploy Influx and Grafana.
+I used Google Kubernetes Engine to easily spin up and deploy apps like Influx, Grafana, etc.  This also makes it easy to deploy services for automation rules and logic.
+
+#### Google Cloud IoT Core
+
+The Google Cloud Core provides a [MQTT](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) and [HTTP](https://cloud.google.com/iot/docs/how-tos/http-bridge) Bridge to receive state changes from devices and to send commands.
