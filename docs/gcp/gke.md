@@ -5,6 +5,8 @@ Google Kubernetes Engine
 - [Create GKE Cluster](#create-gke-cluster)
 - [Deploy InfluxDB](#deploy-influxdb)
     - [Verifying the database](#verifying-the-database)
+- [Deploy Grafana](#deploy-grafana)
+    - [Verifying Grafana](#verifying-grafana)
 
 I recommend starting a new project so all the resources you provision as part of the home automation project will be grouped together.  This will also help track the billing associated with project as well.
 
@@ -13,23 +15,16 @@ I recommend starting a new project so all the resources you provision as part of
 Create new project with:
 
 ```
-
+gcloud projects create home-automation-1 --name="Home Automation" --labels=type=iot
 ```
 
 ## Create GKE Cluster
 
-Using GKE makes deploying applications like InfluxDB and Grafana easier.  However, you can create a cheap single machine cluster with:
-
-```
-
-```
+Using GKE makes deploying applications like InfluxDB and Grafana easier.  However, you can create a cheap single machine cluster with Google Cloud console: Kubernetes engine -> Create Cluster
 
 ## Deploy InfluxDB
 
-Once the Kubernetes cluster is in place you can easily deploy the Influx app using the Google console. 
-
-```
-```
+Once the Kubernetes cluster is in place you can easily deploy the Influx app using the Google console: Kubernetes Engine -> Applications -> Deploy from Marketplace
 
 ### Verifying the database
 
@@ -45,3 +40,18 @@ You can use the [Influx getting Started guide]() to verify the database is funct
 SHOW DATABASES
 ```
 
+## Deploy Grafana
+
+Deploy Grafana using the Google Console: Kubernetes Engine -> Application -> Deploy from Marketplace
+
+### Verifying Grafana
+
+Forward Grafana port in local environment
+
+You can use port forwarding feature of kubectl to forward Grafana's port to your local machine. Run the following command in background:
+
+```
+kubectl port-forward --namespace default grafana-1-grafana-0 3000
+```
+
+Now you can access Grafana UI with http://localhost:3000/.

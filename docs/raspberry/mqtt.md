@@ -31,3 +31,7 @@ This command to publish
 ```
 /usr/local/Cellar/mosquitto/1.5.4/bin/mosquitto_pub -h raspberrypi.local -t topic -m 'hello world'
 ```
+
+## MQTT Devices
+
+You can build sensors that publish events like temporary change and motion detection to the MQTT queue.  This is an example [article](https://thingsmatic.com/2017/02/07/home-assistant-getting-started-and-using-mqtt-sensors/).  
