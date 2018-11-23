@@ -35,6 +35,13 @@ Each time you make a config change you have to restart telegraf with
 sudo service telegraf restart
 ```
 
+### Testing telegraf
+
+If you have followed along and installed MQTT software on your laptop you can test if telegraf is working with:
+
+```
+/usr/local/Cellar/mosquitto/1.5.4/bin/mosquitto_sub -h raspberrypi.local -t telegraf/raspberrypi/cpu
+```
 
 ## Docker
 
