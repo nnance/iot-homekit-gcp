@@ -1,0 +1,26 @@
+{
+  "name": "mqtt2pubsub",
+  "version": "1.0.0",
+  "description": "MQTT To Google Pub/Sub",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc",
+    "prettier": "../../node_modules/.bin/prettier --write ./src/**",
+    "start": "node ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "../../node_modules/.bin/nodemon ./dist/index.js"
+  },
+  "keywords": [
+    "mqtt"
+  ],
+  "author": "Nick Nance",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/pubsub": "^0.21.1",
+    "decko": "^1.2.0",
+    "mqtt": "^2.18.8"
+  },
+  "devDependencies": {
+    "@types/mqtt": "^2.5.0"
+  }
+}
