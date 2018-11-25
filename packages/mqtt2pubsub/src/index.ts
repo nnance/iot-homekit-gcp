@@ -31,23 +31,15 @@ const logError = (logger: Console): ErrorFunc => (err) => {
 }
 
 // subscribe to a topic or output to error log
-const subscribeToMQTT = (client: MqttClient, topic: string, errFunc: ErrorFunc) => () => {
+const subscribeToMQTT = (topic: string, client: MqttClient, errFunc: ErrorFunc) => () => {
     client.subscribe(topic, errFunc);    
 }
 
 type PublishFunc = (topicName: string, message: Buffer) => void
 
-const publishMessage = (topic: Topic): PublishFunc => (topicName, message) => {
+const publishMessage = (topic: Topic, logger: Console): PublishFunc => (topicName, message) => {
+    logger.log(`${topicName} - ${message.toString()}`);
     topic.publisher().publish(message, {topicName});
-}
-
-type CreateTopicFunc = (client: PubSub, publishFunc: PublishFunc, errFunc: ErrorFunc) => (topicName: string, message: Buffer) => void
-
-const createPubSubTopic: CreateTopicFunc = (client, publishFunc, errFunc) => (topicName, message) => {
-    // message is Buffer
-    // tslint:disable-next-line:no-console
-    console.log(`${topicName} - ${message.toString()}`);
-    publishFunc(topicName, message)
 }
 
 const getTopic = (topicName: string, client: PubSub): Promise<Topic> => {
@@ -56,33 +48,35 @@ const getTopic = (topicName: string, client: PubSub): Promise<Topic> => {
             if (err) {
                 reject(err);
             }
-            return topics.find( topic => topic.name === topicName)
+            resolve(topics.find( topic => topic.name === topicName))
         })
     })
 }
 
-const googleTopicCreator = (logger: ErrorFunc, client: PubSub) => async (err: Error, topic: Topic) => {
-    const errorOrTopic = async () => {
-        if (err) {
-            logger(err)
-            return await getTopic(googleTopic, client)
-        } else {
-            return Promise.resolve(topic)
-        }
-    }
-    
-    const actualTopic = await errorOrTopic()
-    const publisher = publishMessage(actualTopic);
-    mqttClient.on("message", createPubSubTopic(client, publisher, logger));
+const createOrGetTopic = (topicName: string, client: PubSub, logger: ErrorFunc): Promise<Topic> =>  {
+    return new Promise((resolve) => {
+        client.createTopic(topicName, async (err: Error, topic: Topic) => {
+            if (err) {
+                logger(err)
+                const remoteTopic = await getTopic(topicName, client)
+                resolve(remoteTopic)
+            } else {
+                resolve(topic)
+            }
+        });
+    })
 }
-
 
 const errorLogger = logError(console)
 
-const topicCreator = googleTopicCreator(errorLogger, pubsubClient)
+const publisher = (topic: Topic) => publishMessage(topic, console)
+const onMessagePublish = (topic: Topic) => mqttClient.on("message", publisher(topic))
 
-pubsubClient.createTopic(googleTopic, topicCreator);
+const subscriber = subscribeToMQTT(mqttTopic, mqttClient, errorLogger)
+const onConnectSubscribe = () => mqttClient.on("connect", subscriber)
 
-mqttClient.on("connect", subscribeToMQTT(mqttClient, mqttTopic, errorLogger));
+createOrGetTopic(googleTopic, pubsubClient, errorLogger)
+    .then(onMessagePublish)
+    .then(onConnectSubscribe)
 
-createServer().listen();
+createServer().listen()
