@@ -63,13 +63,13 @@ sudo cp -r ~/.homebridge/persist /var/lib/homebridge
 
 Then Enable and run the service (first time) with the following commands:
 ```
-systemctl daemon-reload
-systemctl enable homebridge
-systemctl start homebridge
+sudo systemctl daemon-reload
+sudo systemctl enable homebridge
+sudo systemctl start homebridge
 ```
 You can check the status of the service by calling 
 ```
-systemctl status homebridge
+sudo systemctl status homebridge
 ```
 On subsequent reboots, it should start automatically, if not, use the `journalctl -u homebridge` to check the error cause. 
 

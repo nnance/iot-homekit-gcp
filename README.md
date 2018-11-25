@@ -11,6 +11,7 @@ Home automation project based on Apple Homekit and Google Cloud.  This is the do
     - [Raspberry PI](#raspberry-pi)
         - [Docker on Raspberry](#docker-on-raspberry)
     - [Google Cloud](#google-cloud)
+        - [Google Cloud IoT Core](#google-cloud-iot-core)
 
 ## Requirements
 
@@ -55,6 +56,7 @@ Some initial thoughts on items that can be moved to the cloud include the `MQTT 
 
 This being said if running more things in the cloud isn't cost effective or has too much latency the following articles might be helpful in a local installation:
 
+* [MQTT](https://thingsmatic.com/2017/03/02/influxdb-and-grafana-for-sensor-time-series/) InfluxDB and Grafana for sensor time series
 * [Gist](https://gist.github.com/xoseperez/e23334910fb45b0424b35c422760cb87) - Raspberry Pi 3 with Mosquitto, Node-RED, InfluxDB, Grafana and Nginx (as a reverse proxy)
 * Self hosted MQTT three part series, [Part 1](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-1/), [Part 2](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-2/), [Part 3](https://thingsmatic.com/2016/06/24/a-self-hosted-mqtt-environment-for-internet-of-things-part-3/)
  
@@ -64,8 +66,9 @@ The [Respberry PI](https://www.amazon.com/gp/product/B07BLRSKBV/ref=oh_aui_detai
 
 * [Installation](./docs/raspberry/installation.md)
 * [MQTT](./docs/raspberry/mqtt.md)
-* [Telegraf](./docs/raspberry/telegraf.md)
+* [HomeKit](./docs/raspberry/homekit.md)
 * [HomeBridge](./docs/raspberry/homebridge.md)
+* [Telegraf](./docs/raspberry/telegraf.md)
 
 #### Docker on Raspberry
 
@@ -81,3 +84,7 @@ I used Google Kubernetes Engine to easily spin up and deploy apps like Influx, G
 #### Google Cloud IoT Core
 
 The Google Cloud Core provides a [MQTT](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) and [HTTP](https://cloud.google.com/iot/docs/how-tos/http-bridge) Bridge to receive state changes from devices and to send commands.
+
+[This](https://www.influxdata.com/blog/how-to-integrate-google-core-iot-with-influxdata/) is an article on How to Use Google Core IoT with InfluxData
+
+[Guest post](https://cloud.google.com/blog/products/gcp/guest-post-building-iot-applications-with-mqtt-and-google-cloud-pubsubtions?hl=be): Building IoT applications with MQTT and Google Cloud Pub/Sub

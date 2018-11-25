@@ -23,7 +23,7 @@ The latest documentation can be found [here](https://www.raspberrypi.org/help/no
 Configuring remote access for headless operation
 
 * [Enable SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/README.md) for remote access via terminal
-* [Enable VNC](https://www.raspberrypi.org/documentation/remote-access/vnc/README.md) for desktop remote access
+* **Optional** [Enable VNC](https://www.raspberrypi.org/documentation/remote-access/vnc/README.md) for desktop remote access
 
 ### Configure WIFI with VNC
 
